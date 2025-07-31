@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"  />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Exercise 3 — Fill the gaps in Harry Potter dialogues</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    margin: 20px auto;
+    max-width: 960px;
+    color: #222;
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  p.instructions {
+    text-align: center;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 25px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    user-select:none;
+  }
+  .container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 960px;
+    margin: 0 auto 50px;
+  }
+  .word-list {
+    flex: 1 1 300px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px 24px;
+    user-select:none;
+    max-height: 480px;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #444;
+  }
+  .word-list strong {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #007acc;
+  }
+  .dialogues {
+    flex: 2 1 600px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px 26px;
+  }
+  .dialogue-block {
+    margin-bottom: 30px;
+  }
+  .dialogue-block h2 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #007acc;
+  }
+  .dialogue {
+    background: #f0f6fb;
+    padding: 15px 18px;
+    border-radius: 8px;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: 10px;
+  }
+  .dialogue span.speaker {
+    font-weight: 700;
+    color: #003d7a;
+  }
+  .dialogue span.line {
+    display: block;
+    margin-top: 5px;
+  }
+  .gap-input {
+    font-size: 1rem;
+    padding: 6px 10px;
+    width: 100%;
+    max-width: 470px;
+    border: 2px solid #bbb;
+    border-radius: 6px;
+    margin: 6px 0 12px 0;
+    box-sizing: border-box;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+  }
+  .gap-input:focus {
+    outline: none;
+    border-color: #007acc;
+  }
+  .gap-input.correct {
+    border-color: #28a745;
+    background-color: #e6f4ea;
+  }
+  .gap-input.incorrect {
+    border-color: #dc3545;
+    background-color: #f9e6e7;
+  }
+  button.check-btn {
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 7px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  button.check-btn:hover:not(:disabled) {
+    background-color: #005fa3;
+  }
+  button.check-btn:disabled {
+    background-color: #a4c1dc;
+    cursor: not-allowed;
+  }
+  .result-message {
+    margin-top: 8px;
+    font-weight: 700;
+    min-height: 78px;
+    user-select: none;
+  }
+  .correct-msg {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1.5px solid #c3e6cb;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-top: 10px;
+  }
+  .incorrect-msg {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1.5px solid #f5c6cb;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-top: 10px;
+  }
+  .answer-block {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    font-size: 0.95rem;
+  }
+  .answer-block > div {
+    flex: 1 1 45%;
+    padding: 8px 12px;
+    border-radius: 6px;
+  }
+  .user-answer {
+    background-color: #f9e6e7;
+    color: #721c24;
+    border: 1.5px solid #f5c6cb;
+  }
+  .correct-answer {
+    background-color: #e6f4ea;
+    color: #155724;
+    border: 1.5px solid #c3e6cb;
+  }
+  @media (max-width: 800px) {
+    .container {
+      flex-direction: column;
+    }
+    .word-list, .dialogues {
+      max-width: 100%;
+      flex: none;
+    }
+    .gap-input {
+      max-width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>Exercise 3</h1>
+<p class="instructions">
+Here are 5 short conversations between the Harry Potter characters with some missing lines.  
+Fill in the gaps using the phrases from the word list below.  
+Use the correct form of the phrases to make the dialogues sound natural.
+</p>
+
+<div class="container">
+  <div class="word-list" aria-label="Word list">
+    <strong>Word list:</strong>
+    cultivate a deep empathy; cultivate a strong commitment to moral responsibility; exhibit a mix of vulnerability and determination; maintain loyalty to someone; be insecure; be confident; be thoughtful; embody intellectual rigor and conscientiousness; be highly disciplined; alleviate one’s insecurities; balance logic with compassion; show a strong commitment to fairness and integrity; emotional maturity; demonstrate unwavering loyalty to someone; embody emotional sincerity; struggle with insecurity and self-doubt; struggle with a sense of inferiority; show emotional growth and develop maturity over time; have a multifaceted character; demonstrate prudence; reflect compassion and pragmatism; show patience; have a profound sense of responsibility; value love and forgiveness; experience internal conflict; experience emotional ambivalence; outward demeanor; inner life; stern; intimidating; feel regret; redemption; represent the complexity of human motivations; showcase the tension between self-interest and duty
+  </div>
+
+  <section class="dialogues" aria-label="Dialogues with gaps to fill">
+
+    <article class="dialogue-block" id="dialogue1">
+      <h2>Dialogue 1</h2>
+      <div class="dialogue" aria-live="polite" aria-atomic="true">
+        <span class="speaker">Ron:</span>
+        <span class="line">"I don’t know if I can stand up to my brothers sometimes. I feel like I’m just not good enough."</span>
+        <span class="speaker">Hermione:</span>
+        <span class="line">"You’re not alone in that. Many people <input type="text" id="gap1" class="gap-input" aria-label="Fill the blank in Dialogue 1 by Hermione" autocomplete="off" placeholder="Type phrase here...">. But remember, you’ve shown a lot of courage."</span>
+        <span class="speaker">Ron:</span>
+        <span class="line">"Thanks, Hermione. I’m trying to <input type="text" id="gap2" class="gap-input" aria-label="Fill the blank in Dialogue 1 by Ron" autocomplete="off" placeholder="Type phrase here..."> and become stronger each day."</span>
+      </div>
+      <button class="check-btn" data-dialogue="1" aria-live="polite" aria-label="Check answers for Dialogue 1">Check Dialogue 1</button>
+      <div class="result-message" id="result1" aria-live="polite"></div>
+    </article>
+
+    <article class="dialogue-block" id="dialogue2">
+      <h2>Dialogue 2</h2>
+      <div class="dialogue" aria-live="polite" aria-atomic="true">
+        <span class="speaker">Harry:</span>
+        <span class="line">"Sometimes I rush into things without thinking."</span>
+        <span class="speaker">Dumbledore:</span>
+        <span class="line">"That happens to everyone, Harry. But it’s important to also <input type="text" id="gap3" class="gap-input" aria-label="Fill the blank in Dialogue 2 by Dumbledore" autocomplete="off" placeholder="Type phrase here...">, especially when decisions affect many people."</span>
+        <span class="speaker">Harry:</span>
+        <span class="line">"I’ll try to be more careful and thoughtful going forward."</span>
+      </div>
+      <button class="check-btn" data-dialogue="2" aria-live="polite" aria-label="Check answer for Dialogue 2">Check Dialogue 2</button>
+      <div class="result-message" id="result2" aria-live="polite"></div>
+    </article>
+
+    <article class="dialogue-block" id="dialogue3">
+      <h2>Dialogue 3</h2>
+      <div class="dialogue" aria-live="polite" aria-atomic="true">
+        <span class="speaker">Snape:</span>
+        <span class="line">"My feelings are a mess... I don’t know whether to follow my own desires or my duty."</span>
+        <span class="speaker">Dumbledore:</span>
+        <span class="line">"It’s a difficult path. You are experiencing <input type="text" id="gap4" class="gap-input" aria-label="Fill the blank in Dialogue 3 by Dumbledore" autocomplete="off" placeholder="Type phrase here..."> and must find a way to balance your inner conflict."</span>
+        <span class="speaker">Snape:</span>
+        <span class="line">"I hope I can find <input type="text" id="gap5" class="gap-input" aria-label="Fill the blank in Dialogue 3 by Snape" autocomplete="off" placeholder="Type phrase here..."> and atone for my mistakes."</span>
+      </div>
+      <button class="check-btn" data-dialogue="3" aria-live="polite" aria-label="Check answers for Dialogue 3">Check Dialogue 3</button>
+      <div class="result-message" id="result3" aria-live="polite"></div>
+    </article>
+
+    <article class="dialogue-block" id="dialogue4">
+      <h2>Dialogue 4</h2>
+      <div class="dialogue" aria-live="polite" aria-atomic="true">
+        <span class="speaker">Hermione:</span>
+        <span class="line">"I always try to understand how everyone feels in our group."</span>
+        <span class="speaker">Ron:</span>
+        <span class="line">"That’s impressive. You really <input type="text" id="gap6" class="gap-input" aria-label="Fill the blank in Dialogue 4 by Ron" autocomplete="off" placeholder="Type full phrase here...">."</span>
+        <span class="speaker">Hermione:</span>
+        <span class="line">"Thanks, Ron. It helps us stay united."</span>
+      </div>
+      <button class="check-btn" data-dialogue="4" aria-live="polite" aria-label="Check answers for Dialogue 4">Check Dialogue 4</button>
+      <div class="result-message" id="result4" aria-live="polite"></div>
+    </article>
+
+    <article class="dialogue-block" id="dialogue5">
+      <h2>Dialogue 5</h2>
+      <div class="dialogue" aria-live="polite" aria-atomic="true">
+        <span class="speaker">Harry:</span>
+        <span class="line">"I want to do what’s right even when it’s tough."</span>
+        <span class="speaker">Hermione:</span>
+        <span class="line">"That’s because you <input type="text" id="gap8" class="gap-input" aria-label="Fill the blank in Dialogue 5 by Hermione" autocomplete="off" placeholder="Type full phrase here..."> and <input type="text" id="gap9" class="gap-input" aria-label="Fill the blank in Dialogue 5 by Hermione" autocomplete="off" placeholder="Type phrase here..."> loyalty to your friends."</span>
+        <span class="speaker">Ron:</span>
+        <span class="line">"That’s why we all trust you, mate."</span>
+      </div>
+      <button class="check-btn" data-dialogue="5" aria-live="polite" aria-label="Check answers for Dialogue 5">Check Dialogue 5</button>
+      <div class="result-message" id="result5" aria-live="polite"></div>
+    </article>
+
+  </section>
+</div>
+
+<script>
+  (function(){
+    const correctAnswers = {
+      gap1: 'struggle with insecurity and self-doubt',
+      gap2: 'show emotional growth and develop maturity over time',
+      gap3: 'demonstrate prudence',
+      gap4: 'internal conflict',
+      gap5: 'redemption',
+      gap6: 'embody emotional maturity and balance logic with compassion',
+      gap8: 'cultivate a strong commitment to moral responsibility',
+      gap9: 'maintain'
+    };
+
+    function normalize(text) {
+      return text.trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    function checkDialogue(num) {
+      const gaps = document.querySelectorAll(`#dialogue${num} .gap-input`);
+      const resultDiv = document.getElementById('result' + num);
+      let allCorrect = true;
+      let messages = [];
+
+      gaps.forEach(input => {
+        const userValRaw = input.value;
+        const userVal = normalize(userValRaw);
+        const key = input.id;
+        const correctRaw = correctAnswers[key];
+        const correct = normalize(correctRaw);
+
+        if (!userValRaw.trim()) {
+          input.classList.remove('correct', 'incorrect');
+          messages.push(renderAnswerBlock('—', correctRaw));
+          allCorrect = false;
+          input.style.borderColor = '#bbb';
+        } else if (userVal === correct) {
+          input.classList.add('correct');
+          input.classList.remove('incorrect');
+          messages.push(`<div class="correct-msg">Correct answer for <strong>${key}</strong> ✔️</div>`);
+        } else {
+          input.classList.add('incorrect');
+          input.classList.remove('correct');
+          messages.push(renderAnswerBlock(userValRaw, correctRaw));
+          allCorrect = false;
+        }
+      });
+
+      if (allCorrect) {
+        resultDiv.innerHTML = `<div class="correct-msg">All answers for Dialogue ${num} are correct! ✔️</div>`;
+      } else {
+        resultDiv.innerHTML = messages.join('');
+      }
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, function(m) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[m];
+      });
+    }
+
+    function renderAnswerBlock(userAnswer, correctAnswer) {
+      return `
+        <div class="answer-block" role="region" aria-live="polite">
+          <div class="user-answer" aria-label="Your answer">Your answer: ${escapeHtml(userAnswer)}</div>
+          <div class="correct-answer" aria-label="Correct answer">Correct answer: ${escapeHtml(correctAnswer)}</div>
+        </div>
+      `;
+    }
+
+    document.querySelectorAll('button.check-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const dialogueNum = button.getAttribute('data-dialogue');
+        checkDialogue(dialogueNum);
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
